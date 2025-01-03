@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
 
 import Models.*;
 import Repository.CTPRepository;
@@ -17,22 +18,25 @@ public class Screen extends JFrame{
     private JButton button1;
 
     private final List<BusLine> buslines;
+    private Map<String, BusLine> busLineMap;
     private final List<BusStop> busstops;
 
     public Screen() {
-        Map map = new Map();
+        GMap map = new GMap();
         mapPanel.add(map);
 
         /// -------------------------------------
 
         CTPRepository repo = new CTPRepository();
         buslines = repo.getAllLines();
+        busLineMap = repo.getAllLineMap();
         busstops = repo.getAllStops();
+
 
         /// -------------------------------------
 
-        map.setStops(loadLine(buslines.get(0), false), true);
-        mapPanel.repaint();
+        map.setStops(loadLine(busLineMap.get("44"), false), true);
+        //mapPanel.repaint();
 
         /// -------------------------------------
         setContentPane(mainPanel);
@@ -56,11 +60,13 @@ public class Screen extends JFrame{
         List<BusStop> route = new ArrayList<>();
         if(isForward) {
             for (int stopId : line.stopsForward) {
-                route.add(busstops.get(stopId));
+                route.add(busstops.get(stopId-1));
+                System.out.println(busstops.get(stopId-1).name);
             }
         } else {
             for (int stopId : line.stopsBackward) {
-                route.add(busstops.get(stopId));
+                route.add(busstops.get(stopId-1));
+                System.out.println(busstops.get(stopId-1).name);
             }
         }
         return route;
