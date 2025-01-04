@@ -13,6 +13,9 @@ import java.util.Map;
 import Models.*;
 import Repository.CTPRepository;
 
+/**
+ * Main screen of the application
+ */
 public class Screen extends JFrame{
     private JPanel mainPanel;
     //private JFrame frame;
@@ -40,6 +43,12 @@ public class Screen extends JFrame{
         mapPanel.add(map);
 
         /// -------------------------------------
+        ///  Load the Data into the app
+        ///  buslines saved as list for the selection list on the screen
+        ///  busLineMap the dictionary/hashmap to access the bus lines
+        ///  busstops where all the stops are saved
+        ///
+        ///  auxiliary coloredStops for highlighting with red the selected stops of a line
 
         CTPRepository repo = new CTPRepository();
         buslines = repo.getAllLines();
@@ -75,10 +84,12 @@ public class Screen extends JFrame{
                 selectedRow();
             }
         });
+        ///  Initialize the map with all the stops shown and no highlights
         map.setStops(busstops, false);
         map.setColored(coloredStops);
 
         /// -------------------------------------
+        /// Frame configuration
 
         setContentPane(mainPanel);
         pack();
@@ -91,7 +102,8 @@ public class Screen extends JFrame{
     }
 
     private void selectedLine() {
-
+        ///  Show a bus line on screen
+        ///  Get the selected route and load it into the map, then repaint
         if(lineList.getSelectedValue() != null) {
             String lineSelected = lineList.getSelectedValue().toString();
 
@@ -103,16 +115,18 @@ public class Screen extends JFrame{
     }
 
     private void selectedDirection() {
+        ///  Updates the map according to lineDirection
+        ///  Routes can be either forward or backward
         lineDirection = directionBox.isSelected();
 
         if(!lineList.isSelectionEmpty()) {
-            String lineSelected = lineList.getSelectedValue().toString();
             selectedLine();
             mapPanel.repaint();
         }
     }
 
     private void showAllStops() {
+        ///  Resets the map and shows all the stops, no highlights and no lines
         lineList.clearSelection();
 
         coloredStops.clear();
@@ -125,6 +139,8 @@ public class Screen extends JFrame{
     }
 
     private void loadStations(BusLine line) {
+        ///  Updates the Table which displays the route with the names
+        ///  of the stops and the lines that pass through it
         String[][] data;
         List<Integer> stopList;
 
@@ -155,6 +171,7 @@ public class Screen extends JFrame{
     }
 
     private void selectedRow() {
+        ///  creates an array of selected stops from the table and updates the map so it highlights them
         int[] selectedRow = stopsTable.getSelectedRows();
         coloredStops.clear();
         if(!lineList.isSelectionEmpty()) {
@@ -187,16 +204,15 @@ public class Screen extends JFrame{
     }
 
     private List<BusStop> loadLine(BusLine line) {
+        ///  Returns the specific route of a line and the direction  of the route
         List<BusStop> route = new ArrayList<>();
         if(lineDirection) {
             for (int stopId : line.stopsForward) {
                 route.add(busstops.get(stopId-1));
-                //System.out.println(busstops.get(stopId-1).name);
             }
         } else {
             for (int stopId : line.stopsBackward) {
                 route.add(busstops.get(stopId-1));
-                //System.out.println(busstops.get(stopId-1).name);
             }
         }
         return route;

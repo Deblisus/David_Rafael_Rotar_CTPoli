@@ -15,6 +15,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class mediates the connection between the database and the rest of the application
+ * getting the data and processing it in a way useful for the program and interface
+ */
 public class CTPRepository {
     private final Connection connection;
 

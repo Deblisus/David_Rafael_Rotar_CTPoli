@@ -9,8 +9,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GMap extends JPanel{
-    public int width = 640;
-    public int height = 480;
+    private int width = 640;
+    private int height = 480;
     private double scale = 1;
 
     private JLabel image_map;
@@ -24,25 +24,29 @@ public class GMap extends JPanel{
     //public BufferedImage canvas = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 
     public GMap() {
+        ///  Loads the image and the projector and size configuration
         image_icon = new ImageIcon((new ImageIcon("image.jpg")).getImage().getScaledInstance((int)(width*scale), (int)(height*scale),
                 java.awt.Image.SCALE_SMOOTH));
         image_map = new JLabel(image_icon);
         setPreferredSize(new Dimension((int)(width*scale), (int)(height*scale)));
 
         projector = new Projector(width, height, scale);
-        //add(image_map);
     }
 
     public void setStops(List<BusStop> stops, boolean drawLines) {
+        ///  Updates the stops to be displayed on the map
+        ///  drawLines is whether it should draw lines between ordered stops or not
         showStops = stops;
         this.drawLines = drawLines;
     }
 
     public void setColored(List<BusStop> coloredStops) {
+        ///  Updates the colored/highlighted stops to be shown on a route
         this.coloredStops = coloredStops;
     }
 
     private void paintDot(Graphics g, Point mid, String color) {
+        ///  Paints a dot on the map, representing a stop
         int size1 = 12;
         int size2 = 8;
         Color darkGreen = new Color(0, 96, 0);
@@ -60,8 +64,8 @@ public class GMap extends JPanel{
 
     @Override
     public void paintComponent(Graphics g) {
+        ///  paints the Map.
         image_icon.paintIcon(this, g, 0, 0);
-        //Models.Point mid = new Models.Point(width/2, height/2);
 
         int count = 0;
         Point prev = null;
@@ -85,8 +89,6 @@ public class GMap extends JPanel{
             Point pnt = projector.project(stop.lat, stop.lng);
             paintDot(g, pnt, "Red");
         }
-
-        //g.fillOval(100, 100, 100, 100);
     }
 
     public ImageIcon getMapImage() {
@@ -97,9 +99,8 @@ public class GMap extends JPanel{
         return image_map;
     }
 
-
+    /*
     public static void downloadFromAPI() {
-        /*
         try {
             //String imageUrl = "http://maps.googleapis.com/maps/api/staticmap?center=40,26?zoom=1&size=150x112&maptype=satellite&key=AIzaSyCB6XMtzaAS0c9EUsGp8sU4lYI4cxNXIYE&format=jpg&signature=mjuJW9IfSGD_bvhaeol-PBmy0mE=";
             String imageUrl = "https://maps.googleapis.com/maps/api/staticmap?center=46.775523,23.588079&zoom=12&size=640x480&scale=2&key=AIzaSyCB6XMtzaAS0c9EUsGp8sU4lYI4cxNXIYE";
@@ -108,13 +109,6 @@ public class GMap extends JPanel{
             URL url = new URL(imageUrl);
             InputStream is = url.openStream();
             OutputStream os = new FileOutputStream(destinationFile);
-
-            /// center coords: 46.775523,23.588079
-            /// left edge coords: 46.751994, 23.477894
-
-            /// x center: width/2 ........... center.x - left edge coords
-            /// wanted pos:     x ...........
-            ///  what the frick
 
             byte[] b = new byte[2048];
             int length;
@@ -125,11 +119,10 @@ public class GMap extends JPanel{
 
             is.close();
             os.close();
-
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(1);
         }
-        */
     }
+    */
 }

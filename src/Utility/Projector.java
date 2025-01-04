@@ -6,7 +6,7 @@ import java.awt.*;
 public class Projector {
     private  int width = 640;
     private  int height = 480;
-    private  double scale = 2;
+    private  double scale = 1;
 
     private final double lat_diff;
     private final double lng_diff;
@@ -18,6 +18,9 @@ public class Projector {
         this.height = height;
         this.scale = scale;
 
+        ///  Math to calculate the coordinate difference between the left edge of the screen and center
+        ///  Respectively, the bottom edge to the center, to determine the point with coordinates (0,0), that
+        ///  is the top-left corner
         double center_coord_lat = 46.775523;
         double center_coord_lng = 23.588079;
 
@@ -35,7 +38,10 @@ public class Projector {
     }
 
     public Point project(double lat, double lng) {
-        //f(x) = (x - input_start) / (input_end - input_start) * (output_end - output_start) + output_start
+        ///  Function that takes globe coordinates and maps them to the pixels on the map, using
+        ///  Interval mapping, according to the formula below
+        /// f(x) = (x - input_start) / (input_end - input_start) * (output_end - output_start) + output_start
+
         double latFin = (lat - (point0_lat-lat_diff)) / (lat_diff) * (height - 0) + 0;
         ///  Take complement to height because pixel coordinates go top-down, but latitude
         ///  values go South-North, so bottom-up
@@ -49,5 +55,8 @@ public class Projector {
     }
     public void setWidth(int width) {
         this.width = width;
+    }
+    public void setScale(double scale) {
+        this.scale = scale;
     }
 }
