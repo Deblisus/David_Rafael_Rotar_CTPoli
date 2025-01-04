@@ -15,7 +15,7 @@ public class Screen extends JFrame{
     private JPanel infoPanel;
     private JPanel controlPanel;
     private JRadioButton radioButton1;
-    private JButton button1;
+    private JList lineList;
 
     private final List<BusLine> buslines;
     private Map<String, BusLine> busLineMap;
@@ -32,11 +32,12 @@ public class Screen extends JFrame{
         busLineMap = repo.getAllLineMap();
         busstops = repo.getAllStops();
 
-
         /// -------------------------------------
 
-        map.setStops(loadLine(busLineMap.get("44"), false), true);
-        //mapPanel.repaint();
+        populateLineList();
+
+        map.setStops(loadLine(busLineMap.get("10"), false), true);
+        //map.setStops(busstops, true);
 
         /// -------------------------------------
         setContentPane(mainPanel);
@@ -54,6 +55,11 @@ public class Screen extends JFrame{
         mapPanel = new JPanel();
         infoPanel = new JPanel();
         controlPanel = new JPanel();
+    }
+
+    private void populateLineList() {
+        String[] namesArray = buslines.stream().map(BusLine::getNumber).toArray(String[]::new);
+        lineList.setListData(namesArray);
     }
 
     private List<BusStop> loadLine(BusLine line, boolean isForward) {

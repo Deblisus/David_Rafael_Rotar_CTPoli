@@ -12,4 +12,8 @@ public class BusLine {
         this.stopsForward = stopsForward;
         this.stopsBackward = stopsBackward;
     }
+
+    public String getNumber() {
+        return number;
+    }
 }

@@ -9,7 +9,7 @@ import java.awt.Point;
 public class GMap extends JPanel{
     public int width = 640;
     public int height = 480;
-    private double scale = 1.3;
+    private double scale = 1;
 
     private JLabel image_map;
     private ImageIcon image_icon;
