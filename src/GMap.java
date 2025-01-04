@@ -17,6 +17,7 @@ public class GMap extends JPanel{
     private List<BusStop> showStops;
     private Boolean drawLines = false;
     private Projector projector;
+    private List<BusStop> coloredStops;
 
     //public BufferedImage canvas = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 
@@ -35,15 +36,23 @@ public class GMap extends JPanel{
         this.drawLines = drawLines;
     }
 
-    private void paintDot(Graphics g, Point mid) {
+    public void setColored(List<BusStop> coloredStops) {
+        this.coloredStops = coloredStops;
+    }
+
+    private void paintDot(Graphics g, Point mid, String color) {
         int size1 = 12;
         int size2 = 8;
         Color darkGreen = new Color(0, 96, 0);
         Color lightGreen = new Color(0, 200, 0);
+        Color darkRed = new Color(200, 0, 0);
+        Color lightRed = new Color(96, 0, 0);
 
-        g.setColor(darkGreen);
+        if(color.equals("Green")) g.setColor(darkGreen);
+        if(color.equals("Red")) g.setColor(darkRed);
         g.fillOval(mid.x-size1/2, mid.y-size1/2, size1, size1);
-        g.setColor(lightGreen);
+        if(color.equals("Green")) g.setColor(lightGreen);
+        if(color.equals("Red")) g.setColor(lightRed);
         g.fillOval(mid.x-size2/2, mid.y-size2/2, size2, size2);
     }
 
@@ -63,11 +72,16 @@ public class GMap extends JPanel{
                 g2.setStroke(new BasicStroke(3));
                 g2.drawLine(pnt.x, pnt.y, prev.x, prev.y);
             }
-            paintDot(g, pnt);
-            if(prev != null) paintDot(g, prev);
+            paintDot(g, pnt, "Green");
+            if(prev != null) paintDot(g, prev, "Green");
 
             prev = pnt;
             count++;
+        }
+
+        for (BusStop stop : coloredStops) {
+            Point pnt = projector.project(stop.lat, stop.lng);
+            paintDot(g, pnt, "Red");
         }
 
         //g.fillOval(100, 100, 100, 100);
