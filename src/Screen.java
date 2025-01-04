@@ -1,5 +1,8 @@
 import javax.swing.*;
-import java.awt.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
@@ -16,13 +19,18 @@ public class Screen extends JFrame{
     private JPanel controlPanel;
     private JRadioButton radioButton1;
     private JList lineList;
+    private JCheckBox directionBox;
+    private JButton allStops;
 
     private final List<BusLine> buslines;
     private Map<String, BusLine> busLineMap;
     private final List<BusStop> busstops;
 
+    private GMap map;
+    private boolean lineDirection = false;
+
     public Screen() {
-        GMap map = new GMap();
+        map = new GMap();
         mapPanel.add(map);
 
         /// -------------------------------------
@@ -35,11 +43,28 @@ public class Screen extends JFrame{
         /// -------------------------------------
 
         populateLineList();
-
-        map.setStops(loadLine(busLineMap.get("10"), false), true);
-        //map.setStops(busstops, true);
+        lineList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                selectedLine();
+            }
+        });
+        directionBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                selectedDirection();
+            }
+        });
+        allStops.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAllStops();
+            }
+        });
+        map.setStops(busstops, false);
 
         /// -------------------------------------
+
         setContentPane(mainPanel);
         pack();
 
@@ -50,6 +75,35 @@ public class Screen extends JFrame{
         setVisible(true);
     }
 
+    private void selectedLine() {
+        if(lineList.getSelectedValue() != null) {
+            String lineSelected = lineList.getSelectedValue().toString();
+
+            map.setStops(loadLine(busLineMap.get(lineSelected), lineDirection), true);
+            mapPanel.repaint();
+        }
+    }
+
+    private void selectedDirection() {
+        if(!lineList.isSelectionEmpty()) {
+            String lineSelected = lineList.getSelectedValue().toString();
+        }
+
+        lineDirection = directionBox.isSelected();
+
+        if(!lineList.isSelectionEmpty()) {
+            selectedLine();
+            mapPanel.repaint();
+        }
+    }
+
+    private void showAllStops() {
+        lineList.clearSelection();
+
+        map.setStops(busstops, false);
+        mapPanel.repaint();
+    }
+
     private void createUIComponents() {
         // TODO: place custom component creation code here
         mapPanel = new JPanel();
@@ -58,6 +112,8 @@ public class Screen extends JFrame{
     }
 
     private void populateLineList() {
+        /// Only line with chatgpt I think.
+        /// Just gets the line numbers from buslines and puts them in another array
         String[] namesArray = buslines.stream().map(BusLine::getNumber).toArray(String[]::new);
         lineList.setListData(namesArray);
     }
@@ -67,12 +123,12 @@ public class Screen extends JFrame{
         if(isForward) {
             for (int stopId : line.stopsForward) {
                 route.add(busstops.get(stopId-1));
-                System.out.println(busstops.get(stopId-1).name);
+                //System.out.println(busstops.get(stopId-1).name);
             }
         } else {
             for (int stopId : line.stopsBackward) {
                 route.add(busstops.get(stopId-1));
-                System.out.println(busstops.get(stopId-1).name);
+                //System.out.println(busstops.get(stopId-1).name);
             }
         }
         return route;

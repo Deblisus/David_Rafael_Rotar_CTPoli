@@ -24,7 +24,7 @@ public class CTPRepository {
 
     public List<BusLine> getAllLines() {
         List<BusLine> BusLineList = new ArrayList<>();
-        String sql = "SELECT * FROM lines";
+        String sql = "SELECT * FROM lines ORDER BY length(number), number";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
