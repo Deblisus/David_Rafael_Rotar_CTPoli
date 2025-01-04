@@ -1,10 +1,12 @@
+package Panels;
+
 import Models.BusStop;
+import Models.Point;
 import Utility.Projector;
 
 import java.util.List;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.Point;
 
 public class GMap extends JPanel{
     public int width = 640;
@@ -59,7 +61,7 @@ public class GMap extends JPanel{
     @Override
     public void paintComponent(Graphics g) {
         image_icon.paintIcon(this, g, 0, 0);
-        //Point mid = new Point(width/2, height/2);
+        //Models.Point mid = new Models.Point(width/2, height/2);
 
         int count = 0;
         Point prev = null;

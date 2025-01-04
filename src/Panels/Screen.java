@@ -1,3 +1,5 @@
+package Panels;
+
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -89,6 +91,7 @@ public class Screen extends JFrame{
     }
 
     private void selectedLine() {
+
         if(lineList.getSelectedValue() != null) {
             String lineSelected = lineList.getSelectedValue().toString();
 

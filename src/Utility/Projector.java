@@ -1,5 +1,6 @@
 package Utility;
 
+import Models.Point;
 import java.awt.*;
 
 public class Projector {
