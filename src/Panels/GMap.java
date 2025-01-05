@@ -102,8 +102,8 @@ public class GMap extends JPanel{
     /*
     public static void downloadFromAPI() {
         try {
-            //String imageUrl = "http://maps.googleapis.com/maps/api/staticmap?center=40,26?zoom=1&size=150x112&maptype=satellite&key=AIzaSyCB6XMtzaAS0c9EUsGp8sU4lYI4cxNXIYE&format=jpg&signature=mjuJW9IfSGD_bvhaeol-PBmy0mE=";
-            String imageUrl = "https://maps.googleapis.com/maps/api/staticmap?center=46.775523,23.588079&zoom=12&size=640x480&scale=2&key=AIzaSyCB6XMtzaAS0c9EUsGp8sU4lYI4cxNXIYE";
+            //String imageUrl = "http://maps.googleapis.com/maps/api/staticmap?center=40,26?zoom=1&size=150x112&maptype=satellite&key=&format=jpg";
+            String imageUrl = "https://maps.googleapis.com/maps/api/staticmap?center=46.775523,23.588079&zoom=12&size=640x480&scale=2&key=";
             String destinationFile = "t.jpg";
             String str = destinationFile;
             URL url = new URL(imageUrl);
