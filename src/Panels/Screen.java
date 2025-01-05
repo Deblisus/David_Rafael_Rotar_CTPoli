@@ -100,6 +100,10 @@ public class Screen extends JFrame{
         setLocationRelativeTo(null);
         setVisible(true);
     }
+    private void createUIComponents() {
+        // TODO: place custom component creation code here
+        mapPanel = new JPanel();
+    }
 
     private void selectedLine() {
         ///  Show a bus line on screen
@@ -189,11 +193,6 @@ public class Screen extends JFrame{
             map.setColored(coloredStops);
             mapPanel.repaint();
         }
-    }
-
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
-        mapPanel = new JPanel();
     }
 
     private void populateLineList() {
