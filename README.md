@@ -8,6 +8,8 @@
 
 - Load the Database driver file for postgresql version 42.7.4 to the project libraries, cf. file "postgresql-42.7.3.jar"
 
+- Import from Maven library password4j version 1.8.2
+
 - Java version of the SDK is correto-21
 
 - Create a postgresql database with the name CTPoli, and two tables named "lines" and "stops" according to this specification:
@@ -26,6 +28,12 @@ CREATE TABLE lines
     stopsForward VARCHAR(256),
     stopsBackward VARCHAR(256)
 );
+CREATE TABLE users 
+(
+    id serial4,
+    username VARCHAR(20),
+    password VARCHAR(64)
+);
 ```
 
 - Import the data from files "stops.csv" and "lines.csv" into their respective tables, setting the first row as a header
@@ -34,7 +42,7 @@ CREATE TABLE lines
 
 # The Application
 
-By this point, the app should look something like this:
+After logging in, the app should look something like this:
 
 ![Main screen](docsimages/main-screen.png)
 

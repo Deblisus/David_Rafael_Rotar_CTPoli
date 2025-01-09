@@ -28,6 +28,9 @@ public class Screen extends JFrame{
     private JButton allStops;
     private JTable stopsTable;
     private JScrollPane stopsScrollPane;
+    private JButton logOutButton;
+
+    private Login loginPage;
 
     private final List<BusLine> buslines;
     private Map<String, BusLine> busLineMap;
@@ -41,6 +44,8 @@ public class Screen extends JFrame{
     public Screen() {
         map = new GMap();
         mapPanel.add(map);
+
+        loginPage = new Login();
 
         /// -------------------------------------
         ///  Load the Data into the app
@@ -84,6 +89,35 @@ public class Screen extends JFrame{
                 selectedRow();
             }
         });
+
+        loginPage.loginButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(loginPage.tryLogin()){
+                    setContentPane(mainPanel);
+                    pack();
+                    setSize(1280, 720);
+                }
+            }
+        });
+        loginPage.registerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(loginPage.tryRegister()){
+                    setContentPane(mainPanel);
+                    pack();
+                    setSize(1280, 720);
+                }
+            }
+        });
+        logOutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setContentPane(loginPage.getPanel());
+                pack();
+                setSize(1280, 720);
+            }
+        });
         ///  Initialize the map with all the stops shown and no highlights
         map.setStops(busstops, false);
         map.setColored(coloredStops);
@@ -91,7 +125,7 @@ public class Screen extends JFrame{
         /// -------------------------------------
         /// Frame configuration
 
-        setContentPane(mainPanel);
+        setContentPane(loginPage.getPanel());
         pack();
 
         setTitle("CTPoli");
